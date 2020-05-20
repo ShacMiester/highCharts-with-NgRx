@@ -1,5 +1,4 @@
 import { Data } from "./data.model";
-import { Action } from 'rxjs/internal/scheduler/Action';
 import * as DataActions from "./data.actions";
 
 
@@ -14,7 +13,8 @@ export const initialState: Data[] = [{
 {
     name: 'fb.com',
     data: [512, 760, 2430, 41, 415, 621, 229, 8236, 6310, 1238, 705, 886]
-}];
+},
+];
 
 
 export function reducer(state: Data[] = initialState, action: DataActions.Actions) {

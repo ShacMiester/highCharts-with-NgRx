@@ -9,17 +9,15 @@ import { AppState } from './app.state';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = "app";
   chart;
   updateFlag = false;
+  updatePie = false;
   Highcharts = Highcharts;
   chartConstructor = "chart";
   chartCallback;
 
   chartOptions = {
-    series: [
-
-    ],
+    series: [],
     exporting: {
       enabled: true
     },
@@ -31,16 +29,48 @@ export class AppComponent {
     }
   };
 
+  pieChart = {
+    chart: {
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie',
+      name: 'sales'
+    },
+    title: {
+      text: 'Companies sales this month'
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: true,
+          format: '<b>{point.name}%</b>: {point.percentage:.1f} %',
+        }
+      }
+    },
+    series: [{
+
+      data: [
+        ['Firefox', 45.0],
+        ['IE', 26.8],
+        ['chrome', 15],
+        ['Safari', 8.5],
+        ['Opera', 6.2],
+        ['Others', 0.7]
+      ]
+    }]
+  };
 
 
   constructor(private store: Store<AppState>) {
     const self = this;
-
     this.chartCallback = chart => {
-      // saving chart reference
       self.chart = chart;
     };
-
     this.store.select('data').subscribe(
       a => {
         this.chartOptions.series = a;
@@ -53,8 +83,18 @@ export class AppComponent {
 
   updateChart() {
     const self = this;
-    this.store.dispatch(new DataActions.AddData({ name: 'test', data: [Math.random() * 1500, Math.random() * 1009, Math.random() * 10039,Math.random() * 1009, Math.random() * 1009, Math.random() * 100,Math.random() * 100, Math.random() * 1009, Math.random() * 1009,Math.random() * 1009, Math.random() * 1009, Math.random() * 100] }))
+    this.store.dispatch(new DataActions.AddData({ name: 'test', data: [Math.random() * 1500, Math.random() * 1009, Math.random() * 10039, Math.random() * 1009, Math.random() * 1009, Math.random() * 100, Math.random() * 100, Math.random() * 1009, Math.random() * 1009, Math.random() * 1009, Math.random() * 1009, Math.random() * 100] }))
     self.updateFlag = true;
+    this.pieChart.series = [{
+
+      data: [
+        ['Firefox', Math.random()*100],
+        ['IE', Math.random()*100],
+        ['b', Math.random()*100],
+        ['c', Math.random()*100],
+      ]
+    }]
+    this.updatePie = true;
 
   }
 }
